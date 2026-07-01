@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selamat ulang Tahun</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(270deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+        background-size: 800% 800%;
+        animation: gradientBG 15s ease infinite;
+        text-align: center;
+        color: #fff;
+        overflow-x: hidden; /* biar bisa scroll ke bawah */
+      }
+
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .screen {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 100vh; /* biar scroll jalan */
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 20px;
+      }
+
+      .active {
+        display: flex;
+        opacity: 1;
+        z-index: 2;
+      }
+
+      h1,
+      h2,
+      p {
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        font-size: 2rem;
+        text-shadow: 0 0 10px #fff, 0 0 20px #ff4b5c, 0 0 30px #ff1e3c;
+        animation: glow 2s infinite alternate;
+      }
+
+      @keyframes glow {
+        from {
+          text-shadow: 0 0 5px #fff, 0 0 10px #ff4b5c;
+        }
+        to {
+          text-shadow: 0 0 20px #fff, 0 0 30px #ff1e3c, 0 0 40px #ff1e3c;
+        }
+      }
+
+      button {
+        margin: 5px;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 12px;
+        background: #ff4b5c;
+        color: white;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.3s, background 0.3s;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+      button:hover {
+        transform: scale(1.1);
+        background: #ff1e3c;
+      }
+
+      .gallery {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        padding-bottom: 50px;
+      }
+      .gallery img {
+        width: 140px;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+        transition: transform 0.4s ease;
+      }
+      .gallery img:hover {
+        transform: scale(1.1);
+      }
+
+      /* Animasi balon & hati */
+      .balloon,
+      .heart,
+      .confetti {
+        position: fixed; /* biar di atas background */
+        animation: float 6s linear infinite;
+        z-index: 1; /* di bawah ucapan/foto */
+        pointer-events: none;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(100vh) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-120vh) scale(1.2);
+          opacity: 0;
+        }
+      }
+
+      .confetti {
+        font-size: 20px;
+        animation: floatConfetti 4s linear infinite;
+      }
+
+      @keyframes floatConfetti {
+        0% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-120vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* Responsif untuk HP */
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 1.5rem;
+        }
+        h2 {
+          font-size: 1.2rem;
+        }
+        p {
+          font-size: 0.9rem;
+          text-align: left;
+        }
+        .gallery img {
+          width: 100px;
+          height: 140px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Screen 0 -->
+    <div id="screen0" class="screen active">
+      <h1>Tolong Record sebelum membuka melanjutkan lagi 🎥</h1>
+      <div>
+        <button onclick="goTo('screen1')">Sudah Record</button>
+        <button onclick="bohong('screen0')">Belum Record</button>
+      </div>
+    </div>
+
+    <!-- Screen 1 -->
+    <div id="screen1" class="screen">
+      <h1>Apakah Kamu Lutfi? 💖</h1>
+      <div>
+        <button onclick="goTo('screen2')">Betul itu saya</button>
+        <button onclick="bohong('screen1')">Tidak betul</button>
+      </div>
+    </div>
+
+    <!-- Screen 2 -->
+    <div id="screen2" class="screen">
+      <h1>Apakah kamu hari ini berulang tahun? 🎂</h1>
+      <div>
+        <button onclick="goTo('main')">Ya betul</button>
+        <button onclick="bohong('screen2')">Tidak betul</button>
+      </div>
+    </div>
+
+    <!-- Screen Bohong -->
+    <div id="bohong" class="screen">
+      <h1>KAMU BOHONG SEKALI YAH 😜</h1>
+      <button onclick="goBack()">Kembali</button>
+    </div>
+
+    <!-- Screen Utama -->
+    <div id="main" class="screen">
+      <h1>🎉 Ucapan Jam 00.00 Dari Cowomu 🤍</h1>
+      <h2>Happy 5th Birthday Sayangku - 27 November 2026 🎂</h2>
+      <p style="max-width: 800px; line-height: 1.6; text-align: justify">
+        Happy Birthday sayangku 🤍 <br /><br />
+        Gak kerasa ya sayang, dulu waktu tanggal 27 November 2009 kamu lahir ke
+        dunia ini. Seorang bayi mungil yang petet yang skrg udah tumbuh jadi
+        sosok dewasa yang cantik dan sholehah🤍.<br /><br />
+        Sekarang di tahun 2026, sayang udah 17 tahun. Usia yang spesial
+        banget, karena di umur ini kamu semakin banyak doa, harapan, dan impian
+        yang bisa kamu wujudkan.<br /><br />
+        Selamat ulang tahun, kamu sayang 🎂✨ <br />
+        Semoga Allah selalu jaga kamu, ngasih kesehatan, kebahagiaan, dan
+        melapangkan setiap jalan yang kamu tempuh.<br /><br />
+        Aa selalu bersyukur bisa jadi bagian kecil dari hidup kamu sayang,
+        walaupun Aa suka bikin kamu emosi, bikin kamu bete, bahkan kadang bikin
+        kamu kesel. Tapi semua itu gak pernah ngurangin rasa sayang Aa ke kamu.
+        Justru dari hal-hal kecil itu Aa makin sadar betapa berharganya kamu di
+        hidup Aa.<br /><br />
+        Doa Aa selalu sama ko, semoga kamu selalu bahagia, semua cita-cita kamu
+        tercapai, dan semoga Aa bisa terus nemenin perjalanan hidup kamu sampai
+        nanti😇<br /><br />
+        Love you endlessly, kamu sayang 🤍🫶
+      </p>
+
+      <!-- Foto Galeri -->
+      <div class="gallery">
+        <img src="satu.jpeg" alt="foto 1" />
+        <img src="dua.jpeg" alt="foto 2" />
+        <img src="tiga.jpeg" alt="foto 3" />
+        <img src="empat.jpeg" alt="foto 4" />
+        <img src="lima.jpeg" alt="foto 5" />
+        <img src="enam.jpeg" alt="foto 6" />
+        <img src="tujuh.jpeg" alt="foto 7" />
+        <img src="delapan.jpeg" alt="foto 8" />
+        <img src="sembilan.jpeg" alt="foto 9" />
+        <img src="sepuluh.jpeg" alt="foto 10" />
+      </div>
+    </div>
+
+    <!-- Musik -->
+    <audio id="music" loop>
+      <source src="musik.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script>
+      let lastScreen = "screen0"; // untuk tombol kembali
+
+      function goTo(screen) {
+        document
+          .querySelectorAll(".screen")
+          .forEach((s) => s.classList.remove("active"));
+        setTimeout(() => {
+          document.getElementById(screen).classList.add("active");
+        }, 200);
+
+        // kalau masuk ke halaman utama
+        if (screen === "main") {
+          const music = document.getElementById("music");
+          music.play().catch(() => {
+            console.log("User gesture dibutuhkan untuk play musik.");
+          });
+          setInterval(createBalloon, 1000);
+          setInterval(createHeart, 800);
+          setInterval(createConfetti, 600);
+        }
+
+        lastScreen = screen;
+      }
+
+      function bohong(prevScreen) {
+        document
+          .querySelectorAll(".screen")
+          .forEach((s) => s.classList.remove("active"));
+        setTimeout(() => {
+          document.getElementById("bohong").classList.add("active");
+        }, 200);
+        lastScreen = prevScreen;
+      }
+
+      function goBack() {
+        goTo(lastScreen);
+      }
+
+      // Animasi balon
+      function createBalloon() {
+        const balloon = document.createElement("div");
+        balloon.classList.add("balloon");
+        balloon.innerHTML = "🎈";
+        balloon.style.left = Math.random() * window.innerWidth + "px";
+        balloon.style.fontSize = 20 + Math.random() * 40 + "px";
+        document.body.appendChild(balloon);
+        setTimeout(() => balloon.remove(), 6000);
+      }
+
+      // Animasi hati
+      function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.fontSize = 15 + Math.random() * 30 + "px";
+        heart.style.top = window.innerHeight + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+      }
+
+      // Confetti
+      function createConfetti() {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        const colors = ["💛", "💜", "💚", "💙", "❤️", "🧡"];
+        confetti.innerHTML = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 4000);
+      }
+    </script>
+  </body>
+</html>
